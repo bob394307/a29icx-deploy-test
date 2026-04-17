@@ -1,0 +1,3 @@
+FROM alpine:3.21
+LABEL org.opencontainers.image.source=https://github.com/bob394307/a29icx-deploy-test
+CMD ["echo", "a29icx-core test image"]
