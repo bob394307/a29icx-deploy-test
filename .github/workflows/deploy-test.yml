@@ -3,8 +3,8 @@ name: Deploy Test (OIDC + GHCR)
 on:
   workflow_dispatch:
     inputs:
-      backend_url:
-        description: "Control Plane URL (e.g. https://xxxx.ngrok.io)"
+      frontend_url:
+        description: "Next.js frontend URL (e.g. https://xxxx.ngrok.io — must target port 3000)"
         required: true
         type: string
       image_tag:
@@ -71,10 +71,10 @@ jobs:
           echo "::add-mask::$TOKEN"
           echo "token=$TOKEN" >> "$GITHUB_OUTPUT"
 
-      - name: POST /deploy/trigger
+      - name: POST /api/deploy/trigger (via Next.js proxy)
         run: |
           response=$(curl -s -w "\n%{http_code}" \
-            -X POST "${{ inputs.backend_url }}/deploy/trigger" \
+            -X POST "${{ inputs.frontend_url }}/api/deploy/trigger" \
             -H "Authorization: Bearer ${{ steps.oidc.outputs.token }}" \
             -H "Content-Type: application/json" \
             -d "{
