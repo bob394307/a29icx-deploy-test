@@ -71,10 +71,10 @@ jobs:
           echo "::add-mask::$TOKEN"
           echo "token=$TOKEN" >> "$GITHUB_OUTPUT"
 
-      - name: POST /api/deploy/trigger
+      - name: POST /deploy/trigger
         run: |
           response=$(curl -s -w "\n%{http_code}" \
-            -X POST "${{ inputs.backend_url }}/api/deploy/trigger" \
+            -X POST "${{ inputs.backend_url }}/deploy/trigger" \
             -H "Authorization: Bearer ${{ steps.oidc.outputs.token }}" \
             -H "Content-Type: application/json" \
             -d "{
